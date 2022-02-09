@@ -84,6 +84,7 @@ func main() {
 			case <-done:
 				return
 			case <-ticker.C:
+				log.Println("Ticked")
 				c.Visit(trialStatusPage)
 			}
 		}
