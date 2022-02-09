@@ -20,13 +20,21 @@ const trialUnavailableText = "FREE TRIAL TEMPORARILY UNAVAILABLE"
 var mailingList []string = []string{}
 
 type mailJetConfig struct {
-	publicApiKey  string `env:MAIL_JET_PUBLIC_KEY`
-	privateApiKey string `env:MAIL_JET_PRIVATE_KEY`
+	PublicApiKey  string `env:"MAIL_JET_PUBLIC_KEY"`
+	PrivateApiKey string `env:"MAIL_JET_PRIVATE_KEY"`
+}
+
+type serverConfig struct {
+	Port string `env:"PORT" env-default:"8000"`
 }
 
 func main() {
+	var sConfig serverConfig
+	if err := cleanenv.ReadEnv(&sConfig); err != nil {
+		log.Panic(err)
+	}
 	srv := server.New(http.DefaultServeMux, nil)
-
+	log.Printf("%v", sConfig)
 	c := colly.NewCollector()
 
 	var mCfg mailJetConfig
@@ -34,7 +42,7 @@ func main() {
 		log.Panic(err)
 	}
 
-	mailJetClient := mailjet.NewMailjetClient(mCfg.publicApiKey, mCfg.privateApiKey)
+	mailJetClient := mailjet.NewMailjetClient(mCfg.PublicApiKey, mCfg.PrivateApiKey)
 
 	c.OnRequest(func(r *colly.Request) {
 		log.Println("Visiting", r.URL)
@@ -79,8 +87,8 @@ func main() {
 		}
 	}()
 
-	log.Println("Starting server")
-	if err := srv.ListenAndServe(":8000"); err != nil {
+	log.Println("Starting server on port", sConfig.Port)
+	if err := srv.ListenAndServe(":" + sConfig.Port); err != nil {
 		done <- true
 		log.Fatalf("%v", err)
 	}
