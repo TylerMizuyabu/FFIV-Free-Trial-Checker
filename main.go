@@ -17,7 +17,9 @@ var mu sync.Mutex
 const trialStatusPage = "https://freetrial.finalfantasyxiv.com/"
 const trialUnavailableText = "FREE TRIAL TEMPORARILY UNAVAILABLE"
 
-var mailingList []string = []string{}
+var mailingList []string = []string{
+	"tylermizuyabu@gmail.com",
+} // Because heroku apps "have to sleep for at least 6 hours a day" and I don't want to link a persistant storage solution
 
 type mailJetConfig struct {
 	PublicApiKey  string `env:"MAIL_JET_PUBLIC_KEY"`
@@ -121,7 +123,7 @@ func sendEmails(mailJetClient *mailjet.Client) {
 		},
 	)
 	if err != nil {
-		log.Printf("Error sending emails:", err)
+		log.Println("Error sending emails:", err)
 		return
 	}
 	mailingList = []string{}

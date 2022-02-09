@@ -19,7 +19,7 @@ require (
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/wire v0.5.0 // indirect
-	github.com/ilyakaznacheev/cleanenv v1.2.6 // indirect
+	github.com/ilyakaznacheev/cleanenv v1.2.6
 	github.com/joho/godotenv v1.4.0 // indirect
 	github.com/kennygrant/sanitize v1.2.4 // indirect
 	github.com/saintfish/chardet v0.0.0-20120816061221-3af4cd4741ca // indirect
