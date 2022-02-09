@@ -37,7 +37,7 @@ func main() {
 	}
 	srv := server.New(http.DefaultServeMux, nil)
 	log.Printf("%v", sConfig)
-	c := colly.NewCollector()
+	c := colly.NewCollector(colly.AllowURLRevisit())
 
 	var mCfg mailJetConfig
 	if err := cleanenv.ReadEnv(&mCfg); err != nil {
@@ -85,7 +85,6 @@ func main() {
 			case <-done:
 				return
 			case <-ticker.C:
-				log.Println("Ticked")
 				c.Visit(trialStatusPage)
 			}
 		}
