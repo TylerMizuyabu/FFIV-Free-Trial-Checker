@@ -79,6 +79,7 @@ func main() {
 
 	go func() {
 		c.Visit(trialStatusPage)
+		defer log.Println("Exiting concurrent go process")
 		for {
 			select {
 			case <-done:
